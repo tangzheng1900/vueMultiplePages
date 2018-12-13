@@ -16,6 +16,7 @@
         },
         methods: {},
         mounted() {
+            console.log(process.env.VUE_APP_HTML_FILES);
             Dialog.confirm({
                 title: '标题',
                 message: '一个开箱即用的移动端vue多页面脚手架。规划了目录，添加了常用组件和库。'
