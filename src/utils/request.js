@@ -10,9 +10,21 @@ const service = Axios.create({
     timeout: Config.timeout
 })
 
+
+service.defaults.retry = Config.requestFailureRetry;
+service.defaults.retryDelay = Config.requestFailureRetryDelay;
+
+
 service.interceptors.response.use(
     response => {
         const res = response
+        if(
+            res.config.hasOwnProperty('noInterception')
+            && res.config.noInterception
+        ){
+            return res.data
+        }
+
         if (res.status !== 200) {
             Toast('数据返回出错');
             return Promise.reject('error')

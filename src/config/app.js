@@ -12,4 +12,6 @@ export default {
     timeout:1000,
     localStorageKey:'KEYXXX',
     designSize:375,//设计稿宽度 375 or 750
+    requestFailureRetry:4, //请求失败重试
+    requestFailureRetryDelay:600 //请求失败重试延迟
 }
