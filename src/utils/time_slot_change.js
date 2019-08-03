@@ -1,6 +1,6 @@
 /**
-* 善行webapp常用方法
-* @module 善行webapp常用方法
+* webapp常用方法
+* @module webapp常用方法
 */
 
 /** 

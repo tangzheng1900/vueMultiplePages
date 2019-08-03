@@ -36,25 +36,32 @@ npm run build // 打包正式环境
 
 	|-- dist                             // 打包目录
 	|-- src                              // 源码目录
-	|   |-- api                          // Api接口目录
-	|       |-- user.js           	     //用户登录、头像上传、密码修改等用户相关api
-	|   |-- assets                       // 静态资源，你的css、图片、字体等。
-	|   |-- components                   //全局组件
-	|   |-- config                       // 应用的配置文件
-	|       |-- app.js                   // 应用的配置，名字，api请求的url，
-	|       |-- page.js           	     // 每一个页面的配置,标题之类的
-	|   |-- utils                        // 工具函数。和config,api一个道理，建议分类清楚。
-    |       |-- app.js                   // 常用函数
+	|   |-- components                   // 全局组件
+	|   |-- utils                        // 工具函数。
+    |       |-- arrMethods.js            // 数组函数
+	|       |-- back.js                  // 返回事件
     |       |-- request.js               // 请求封装
-	|       |-- weixin.js                // 微信jssdk的封装，使用请先安装weixin-js-sdk
-	|       |-- setHtmlFontSize.js       // 设置根元素字体大小，配合rem做屏幕适配
+	|       |-- changeUrl.js       	     // 页面跳转
+    |       |-- eleMethods.js            // dom方法
+	|       |-- time_slot_change.js      // 时间方法
 	|   |-- pages                        // 页面视图
-	|       |-- index                    // 首页
-	|       |-- common.js                // 公共的js，可以引公共的css,vue ui库等
+	|       |-- home                     // 首页模块文件夹
+	|           |-- index                // 首页文件夹
+	|               |-- index.vue        // 首页模板文件
+	|               |-- index.js         // 首页js文件
+	|           |-- home1                // 首页内页文件夹
+	|               |-- home1.vue        // 首页内页模板文件
+	|               |-- home1.js         // 首页内页js文件
+	|       |-- discover                 // 发现模块文件夹
+	|           |-- discover             // 发现文件夹
+	|               |-- discover.vue     // 发现模板文件
+	|               |-- discover.js      // 发现js文件
+	|       |-- public_app.js            // 公共的js，可以引公共的css,vue ui库等
 	|-- .gitignore                       // 忽略的文件
 	|-- page.config.js                   // 使用node读取pages文件夹下的文件夹配置到vue cli3
 	|-- vue.config.js                    // vue cli 配置
 	|-- README.md                        // 说明
+	|-- package.json					 // 资源包
 
 
 
