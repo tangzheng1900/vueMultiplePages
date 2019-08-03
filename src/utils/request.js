@@ -1,73 +1,94 @@
-import Axios from 'axios'
-import Config from '../config/app.js'
-import {getToken}  from '../utils/app'
-//import { Toast } from 'vant';
+import axios from 'axios';
+import storeLocal from 'store';
 
-const service = Axios.create({
-    baseURL: Config.apiUrl + '/' + Config.apiPrefix,
-    headers: {
-        'Accept': '*/*'
-    },
-    timeout: Config.timeout
-})
+const protocolStr = document.location.protocol;
+// const protocolStr = document.location.protocol + document.domain ;
+let domain = document.domain;
+const apiv1 = '/api/v1';
+const api = '/api/v2';
+var env = `${domain === 'localhost' ? '/env': ''}/ts/v2`;//根据域名加env字段
+if(domain == 'h5.dev.renrenfo.cn'){
+  env='ts/v2'
+}
 
-service.defaults.retry = Config.requestRetry;
-service.defaults.retryDelay = Config.requestRetryDelay;
+// Created the request address of API.
+export const createAPI = PATH => `${api}/${PATH}`;
 
-service.interceptors.request.use(
-    config => {
+// Created the request address of API V1.
+export const createOldAPI = PATH => `${apiv1}/${PATH}`;
+export const createEnvAPI = PATH => `${env}/${PATH}`;
+// 注入access-token验证
+export const addAccessToken = () => {
+  // 如果有才发送
+  let new_toke = storeLocal.get('UserLoginInfo');
+  const {
+    token = ''
+  } = storeLocal.get('UserLoginInfo') || {};
+  let _token = token ? `Bearer ${token}` : '';
 
-        if(!config.closeLoading){
-            //加载提示
-            // window.loadingInstance = Toast.loading({
-            //     mask: true,
-            //     message: '加载中...'
-            // });
-        }
+  axios.defaults.headers.common = {
+    'Authorization': _token,
+    'Accept': 'application/json',
+    'Cache-Control': 'no-cache'
+  };
+  return axios;
+};
 
-        let noParameters = config.url.indexOf('?')  == -1;
-        //config.headers['X-Token'] = getToken() //
-        config.url = noParameters ? config.url+'?access_token=' + getToken(): config.url+'&access_token='+ getToken();
-
-        return config
-    },
-    error => {
-        Promise.reject(error)
-    }
-)
-
-service.interceptors.response.use(
-    response => {
-        if(!response.config.closeLoading){
-            setTimeout(_=>{
-                if(window.loadingInstance){
-                    window.loadingInstance.clear();
-                }
-            },400);
-        }
-
-        const res = response
-        if (res.status !== 200) {
-            //Toast('数据返回出错');
-            return Promise.reject('error')
-        } else {
-            if(res.data.resultCode != 200){
-                Toast(res.data.message);
-                return Promise.reject('error');
+axios.interceptors.response.use(
+  function (response) {
+    //在不需要处理的页面
+    return response;
+  },
+  // 错误请求处理
+  function (error) {
+    if (error.response) {
+      const {
+        status
+      } = error.response;
+      // token失效 提示: 重新登录
+      if (status === 401) {
+        // 清除本地保存的 token
+        storeLocal.remove('UserLoginInfo');
+        //如果在app中则前往app登陆
+        let isApps = storeLocal.get('renrenfo_webview_login') || false;
+        if (isApps) {
+          // 安卓app中回调
+          let u = navigator.userAgent;
+          let isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+          let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+          if (isAndroid) {
+            try {
+              window.native.login();
+            } catch (error) {
+              console.log(error)
             }
-            return res.data.data
-        }
-    },
-    error => {
-
-        setTimeout(_=>{
-            if(window.loadingInstance){
-                window.loadingInstance.clear();
+            return
+          } else if (isiOS) {
+            try {
+              webkit.messageHandlers.showLoginHandler.postMessage('');
+            } catch (error) {
+              console.log(error)
             }
-        },300);
-        //Toast("请求未响应");
-        return Promise.reject(error)
+            return
+          }
+        }
+        //非app内，前往web页登录
+        window.location.href = 'login.html'
+        return Promise.reject({
+          response: {
+            data: {
+              message: "登录失效, 请重新登录"
+            }
+          }
+        });
+      }
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      console.log('Error', error.message);
     }
-)
+    return Promise.reject(error);
+  }
+);
 
-export default service
+export default axios;

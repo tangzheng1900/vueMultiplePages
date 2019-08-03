@@ -1,0 +1,49 @@
+/*过度效果*/
+.fade-enter-active{
+  transition: opacity .5s;
+  z-index:10;
+  height:100%;
+}
+.fade-leave-active{
+  transition: opacity .5s;
+  z-index:10;
+  height:100%;
+}
+
+.fade-enter  {
+  opacity:0;
+  height:100%;
+}
+.fade-leave  {
+  opacity:0.5;
+  height:100%;
+}
+.fade-leave-to  {
+  opacity:0;
+  height:100%;
+}
+*{padding: 0;margin: 0;}
+html,body {
+  height: 100%;
+  overflow: hidden;
+}
+body{
+  background: url('../images/system/sjbj.jpg') no-repeat;
+  background-size:100% 100%;
+}
+#pageDiv{
+  background: rgba(255,255,255,0.5);
+}
+// 主框架
+#app{
+  width: 100%;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  .app-views{
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+}
+

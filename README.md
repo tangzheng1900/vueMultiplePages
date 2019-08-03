@@ -1,5 +1,13 @@
 # Vue Multiple Pages
-
+基于vue-cli3.0 + webpack@4.28.4的多页脚手架
+> 编译速度与热跟新速度要优于webpack2.0、3.0，但相应的消耗内存变大，在node中出现内存溢出现象，如页面过多，使用
+```
+npm run fix-memory-limit
+```
+再进行
+```
+npm run dev
+```
 ## Project setup
 ```
 npm install
@@ -21,7 +29,7 @@ npm run build // 打包正式环境
 
 > 一个基于vue-cli3脚手架的多页面vue移动端模板
 
-*添加了移动端相关工具如 1px问题、300s点击延迟、px自动转rem工具，以及微信签名和请求的封装等*
+*添加了移动端相关工具如 mint-ui、300s点击延迟、rem、公共头部和底部、less、store、pages/public_app.js，以及微信签名和请求的封装等*
 
 
 ## 目录结构介绍 ##
@@ -51,9 +59,10 @@ npm run build // 打包正式环境
 
 
 ## 说明
-* 使用normalize.css重置样式。
+* 在css/common.less里重置样式。
 * 添加了axios请求库，并做了简单的拦截。
 * 添加了fastclick解决移动端300ms点击延迟。
-* 想要添加自己 UI库,安装好在common.js引用即可。
-* 添加postcss-px2rem自动将px转换为rem适配移动端，目前为了和大部分ui库兼容，设置的设计稿宽度为375，可自行修改。
-* 添加页面请在pages文件夹下新建目录，在里面放置index.js和Index.vue（建议复制template文件夹修改名字进行开发）。编译后，目录的名字即为网页的名字。至于为什么？请查看page.config.js。
+* 已添加mint-ui库，想要添加自己 UI库,在pages/public_app.js引用即可。
+* 添加rem适配移动端，设置的设计稿宽度为750，1rem=30px，可在statics/js/public.js自行修改。
+* 添加了vue-lazyload图片懒加载，在pages/public_app.js中查看
+* 添加页面请在pages文件夹下新建目录，在里面放置js和.vue（建议复制已有的文件夹修改名字进行开发）。
