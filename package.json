@@ -12,17 +12,17 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "cross-env": "^5.2.0",
     "fastclick": "^1.0.6",
     "increase-memory-limit": "^1.0.7",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "mint-ui": "^2.2.13",
     "store": "^2.0.12",
-    "vue": "^2.6.10",
+    "vue": "^2.5.17",
     "weixin-js-sdk": "^1.4.0-test"
   },
   "devDependencies": {
+    "postcss-px2rem": "^0.3.0",
     "@vue/cli-plugin-babel": "^3.0.5",
     "@vue/cli-service": "^3.0.5",
     "vue-template-compiler": "^2.5.17"

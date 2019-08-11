@@ -1,13 +1,5 @@
 # Vue Multiple Pages
-基于vue-cli3.0 + webpack@4.28.4的多页脚手架
-> 编译速度与热跟新速度要优于webpack2.0、3.0，但相应的消耗内存变大，在node中出现内存溢出现象，如页面过多，使用
-```
-npm run fix-memory-limit
-```
-再进行
-```
-npm run dev
-```
+
 ## Project setup
 ```
 npm install
@@ -29,47 +21,39 @@ npm run build // 打包正式环境
 
 > 一个基于vue-cli3脚手架的多页面vue移动端模板
 
-*添加了移动端相关工具如 mint-ui、300s点击延迟、rem、公共头部和底部、less、store、pages/public_app.js，以及微信签名和请求的封装等*
+*添加了移动端相关工具如 1px问题、300s点击延迟、px自动转rem工具，以及微信签名和请求的封装等*
 
 
 ## 目录结构介绍 ##
 
 	|-- dist                             // 打包目录
 	|-- src                              // 源码目录
-	|   |-- components                   // 全局组件
-	|   |-- utils                        // 工具函数。
-    |       |-- arrMethods.js            // 数组函数
-	|       |-- back.js                  // 返回事件
+	|   |-- api                          // Api接口目录
+	|       |-- user.js           	     //用户登录、头像上传、密码修改等用户相关api
+	|   |-- assets                       // 静态资源，你的css、图片、字体等。
+	|   |-- components                   //全局组件
+	|   |-- config                       // 应用的配置文件
+	|       |-- app.js                   // 应用的配置，名字，api请求的url，
+	|       |-- page.js           	     // 每一个页面的配置,标题之类的
+	|   |-- utils                        // 工具函数。和config,api一个道理，建议分类清楚。
+    |       |-- app.js                   // 常用函数
     |       |-- request.js               // 请求封装
-	|       |-- changeUrl.js       	     // 页面跳转
-    |       |-- eleMethods.js            // dom方法
-	|       |-- time_slot_change.js      // 时间方法
+	|       |-- weixin.js                // 微信jssdk的封装，使用请先安装weixin-js-sdk
+	|       |-- setHtmlFontSize.js       // 设置根元素字体大小，配合rem做屏幕适配
 	|   |-- pages                        // 页面视图
-	|       |-- home                     // 首页模块文件夹
-	|           |-- index                // 首页文件夹
-	|               |-- index.vue        // 首页模板文件
-	|               |-- index.js         // 首页js文件
-	|           |-- home1                // 首页内页文件夹
-	|               |-- home1.vue        // 首页内页模板文件
-	|               |-- home1.js         // 首页内页js文件
-	|       |-- discover                 // 发现模块文件夹
-	|           |-- discover             // 发现文件夹
-	|               |-- discover.vue     // 发现模板文件
-	|               |-- discover.js      // 发现js文件
-	|       |-- public_app.js            // 公共的js，可以引公共的css,vue ui库等
+	|       |-- index                    // 首页,支持子目录作为页面
+	|       |-- common.js                // 公共的js，可以引公共的css,vue ui库等
 	|-- .gitignore                       // 忽略的文件
 	|-- page.config.js                   // 使用node读取pages文件夹下的文件夹配置到vue cli3
 	|-- vue.config.js                    // vue cli 配置
 	|-- README.md                        // 说明
-	|-- package.json					 // 资源包
 
 
 
 ## 说明
-* 在css/common.less里重置样式。
+* 使用normalize.css重置样式。
 * 添加了axios请求库，并做了简单的拦截。
 * 添加了fastclick解决移动端300ms点击延迟。
-* 已添加mint-ui库，想要添加自己 UI库,在pages/public_app.js引用即可。
-* 添加rem适配移动端，设置的设计稿宽度为750，1rem=30px，可在statics/js/public.js自行修改。
-* 添加了vue-lazyload图片懒加载，在pages/public_app.js中查看
-* 添加页面请在pages文件夹下新建目录，在里面放置js和.vue（建议复制已有的文件夹修改名字进行开发）。
+* 想要添加自己 UI库,安装好在common.js引用即可。
+* 添加postcss-px2rem自动将px转换为rem适配移动端，目前为了和大部分ui库兼容，设置的设计稿宽度为375，可自行修改。
+* 添加页面请在pages文件夹下新建目录，在里面放置index.js和Index.vue（建议复制template文件夹修改名字进行开发，支持多个页面放置在同一个文件夹）。编译后，目录的名字即为网页的名字。至于为什么？请查看page.config.js。
