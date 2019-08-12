@@ -1,5 +1,7 @@
 # Vue Multiple Pages
 
+## 线上demo预览
+[点击此链接预览](https://my.weblf.cn/vue_multiple_pages_demo).
 ## Project setup
 ```
 npm install
