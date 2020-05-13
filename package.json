@@ -17,6 +17,7 @@
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "mint-ui": "^2.2.13",
+    "qrcodejs2": "0.0.2",
     "store": "^2.0.12",
     "vue": "^2.5.17",
     "weixin-js-sdk": "^1.4.0-test"
