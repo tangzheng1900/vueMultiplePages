@@ -34,6 +34,14 @@ export const addAccessToken = () => {
   return axios;
 };
 
+export const getSaleInfoByUid = (uid) => {
+    axios.defaults.headers.common = {
+        'Accept': 'application/json',
+        'Cache-Control': 'no-cache'
+    };
+    return axios;
+}
+
 axios.interceptors.response.use(
   function (response) {
     //在不需要处理的页面
