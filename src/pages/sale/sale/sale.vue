@@ -63,7 +63,7 @@
             if (res.data.data.total === 1) {
               console.log('uid====', res);
               this.headImg = res.data.data.records[0].headImg;
-              this.text = `http://192.168.0.106:8080/question.html?uid=${this.uid}`;  // 问卷地址
+              this.text = `http://220.179.41.8:38557/push/question.html?uid=${this.uid}`;  // 问卷地址
             } else {
               this.headImg = '';
               this.$toast('请输入正确的uid信息！');

@@ -8,10 +8,10 @@
         v-for="(item, index) in options.questions"
         :key="index"
       >
-        <div class="title">{{ item.title }}</div>
+        <div class="title">{{ `${index + 1}. ${item.title}`}}</div>
         <van-checkbox-group
           class="checkbox-group"
-          v-model="value[index]">
+          v-model="checkList[index]">
           <van-checkbox
             style="height: 35px"
             v-for="(check, index) in item.checkList"
@@ -21,20 +21,31 @@
           </van-checkbox>
         </van-checkbox-group>
       </div>
-      <van-field v-model="username" label="姓名" clearable required size="large" label-width="60" />
-      <van-field v-model="phone" type="tel" label="手机号" clearable required size="large" label-width="60" />
-      <van-button
-        style="margin-top: 15px"
-        type="info"
-        block
-        @click="handleSubmit"
-      >点击提交，抽大奖</van-button>
+      <div
+        class="question-item"
+        v-for="(item, index) in options.radioQuestions"
+        :key="index + 3"
+      >
+        <div class="title">{{ `${index + 3}. ${item.title}`}}</div>
+        <van-radio-group
+          class="checkbox-group"
+          v-model="radio[index]">
+          <van-radio
+            style="height: 35px"
+            v-for="(check, index) in item.checkList"
+            :key="index"
+            :name="check.value">{{ check.label }}
+          </van-radio>
+        </van-radio-group>
+      </div>
+      <van-field v-model="userName" label="姓名" clearable size="large" label-width="60" />
+      <van-field v-model="userPhone" type="tel" label="手机号" clearable size="large" label-width="60" />
       <van-button
         style="margin: 15px 0"
         type="info"
         block
-        @click="changeUrl('result.html')"
-      >查看结果</van-button>
+        @click="handleSubmit"
+      >点击提交，抽大奖</van-button>
     </section>
   </div>
 </template>
@@ -42,7 +53,6 @@
 import mynav from "@/components/mynav";
 import {changeUrl} from "@/utils/changeUrl";
 import options from "./options";
-import {fetch} from "../../../utils/request";
 import { GetQueryString } from "../../../statics/js/methods";
 
 export default {
@@ -51,9 +61,10 @@ export default {
       isWeiXin: TS_WEB.isWeiXin,
       isApps: TS_WEB.isApp,
       options,
-      value: [[], [], [], []],
-      username: '',
-      phone: '',
+      checkList: [[], []], // 多选的值
+      radio: ['','',''], // 单选额值
+      userName: '',
+      userPhone: '',
       uid: '', // UID_CXkBtaSedeKS0XtySFe78EDuTMyr
     };
   },
@@ -63,38 +74,33 @@ export default {
   methods: {
     changeUrl,
     handleSubmit() {
-      if (this.username && this.phone) {
-        const message = "<table><tr><th>产品</th><th>数量</th><th>产品说明</th></tr><tr><td>主卡</td><td>2</td><td>300分钟通话</td></tr></table>"
-        this.pushMessage1(message);
-      } else {
-        this.$toast('请填写完成的个人信息！');
+      console.log(this.checkList, this.radio);
+      const { checkList, radio, userName, userPhone, uid } = this;
+      // 先校验，不通过直接提醒
+      // if(!uid) {
+      //   this.$toast('客户经理不存在，请扫描客户经理的二维码进入填写！');
+      //   return;
+      // }
+      let valid = true;
+      checkList.forEach(item => {
+        if(item.length < 1) {
+          this.$toast('每道题至少选择一项！');
+          valid = false;
+          return;
+        }
+      });
+      radio.forEach(item => {
+        if(item === '') {
+          this.$toast('每道题至少选择一项！');
+          valid = false;
+          return;
+        }
+      });
+      if (valid) {
+        sessionStorage.setItem('result', JSON.stringify({ checkList, radio, userName, userPhone, uid })); // 存储，给result页面使用，统一在result推送
+        this.changeUrl('result.html'); // 跳转
       }
     },
-    pushMessage(message) {
-      const api = 'http://wxpusher.zjiecode.com/api/send/message/';
-      const appToken = 'AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2';
-      const { uid } = this;
-      const content = encodeURI(message);
-      const url = `${api}?appToken=${appToken}&uid=${uid}&content=${content}`;
-      fetch().get(url).then(() => {
-        this.$toast('信息已保存');
-      });
-    },
-    pushMessage1(content) {
-      const api = 'http://wxpusher.zjiecode.com/api/send/message';
-      const appToken = 'AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2';
-      const { uid } = this;
-      const params = {
-        appToken,
-        content,
-        summary: '推荐套餐',
-        contentType: 2,
-        uids: [uid]
-      };
-      fetch().post(api, params).then(() => {
-        this.$toast('post,,,,信息已保存');
-      });
-    }
   },
   mounted(){
     const uid = GetQueryString('uid');
@@ -105,7 +111,7 @@ export default {
     }
   },
   created() {
-    document.title='查一查，礼品任你拿--问卷'
+    document.title='查一查，礼品任你拿！'
   }
 };
 </script>
@@ -130,10 +136,11 @@ export default {
       font-size: 2rem;
     }
     .question-item{
-      margin: 10px;
+      margin: 15px;
       .title{
-        line-height: 30px;
+        line-height: 25px;
         color: #fff;
+        margin-bottom: 5px;
       }
       .checkbox-group{
         background-color: #fff;
