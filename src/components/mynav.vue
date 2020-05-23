@@ -1,6 +1,11 @@
 <template>
   <!-- 页面头部 -->
   <div class="nav">
+    <div class="nav-item" @click="go_page('')">
+      <img :src="navs1" class="nav-icon" v-if="pageName == 'question'">
+      <img :src="nav1" class="nav-icon" v-else>
+      <h3 :class="{'active':pageName == 'home'}">主页</h3>
+    </div>
     <div class="nav-item" @click="go_page('sale')">
       <img :src="navs4" class="nav-icon" v-if="pageName == 'sale'">
       <img :src="nav4" class="nav-icon" v-else>

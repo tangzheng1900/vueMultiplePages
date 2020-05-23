@@ -4,28 +4,34 @@
     <!-- 页面的主要内容 -->
     <section class="content">
       <h3>销售专属页面</h3>
-      <van-button
-        type="info"
-        url="http://wxpusher.zjiecode.com/api/qrcode/FuEd8hhLDKUeFTHp7zQ0fEVE4MgYFEM5aR4B6EgE1dljITAXRFtQiy61LGcairBl.jpg"
-      >扫码关注，获取UID</van-button>
+      <van-cell title="UID获取说明" is-link @click="show=true"/>
+      <van-action-sheet v-model="show" title="UID说明">
+        <div style="padding: 16px 16px 100px;">
+          <div>UID是每个销售人员唯一的身份ID，点击按钮，扫码关注我们的服务即可获取</div>
+          <div style="text-align: center; margin-top: 10px">
+            <van-button
+              type="info"
+              url="http://wxpusher.zjiecode.com/api/qrcode/FuEd8hhLDKUeFTHp7zQ0fEVE4MgYFEM5aR4B6EgE1dljITAXRFtQiy61LGcairBl.jpg"
+            >扫码关注，获取UID</van-button>
+          </div>
+        </div>
+      </van-action-sheet>
       <van-field v-model.trim="uid" label="UID" clearable required label-width="60"/>
-      <van-field v-model="name" label="姓名" label-width="60" />
-      <van-field v-model="phone" type="tel" label="手机号" label-width="60" />
+      <van-field v-model="name" label="姓名" clearable required label-width="60" />
+      <van-field v-model="phone" type="tel" label="手机号" clearable required label-width="60" />
       <van-button
+        style="margin-top: 15px"
         type="info"
+        block
         @click="getQrocde"
-      >生成个人二维码</van-button>
+      >生成我的专属二维码</van-button>
       <div v-if="headImg" class="qrcode">
         <qrcode-vue :logoSrc="headImg" :text="text" :logoScale="50" :size="300"/>
       </div>
-      <div>{{ url }}</div>
-      <van-cell title="单元格" :value="demouid" />
     </section>
-    <mynav :pagename="'liking'"/>
   </div>
 </template>
 <script>
-  import mynav from "@/components/mynav";
   import {changeUrl} from "@/utils/changeUrl"
   import {fetch} from "../../../utils/request";
   import QrcodeVue from 'vue-qr';
@@ -36,16 +42,15 @@
         isWeiXin: TS_WEB.isWeiXin,
         isApps: TS_WEB.isApp,
         text: '', //需要生成二维码图片的字符串
-        demouid: 'UID_CXkBtaSedeKS0XtySFe78EDuTMyr',
+        // demouid: 'UID_CXkBtaSedeKS0XtySFe78EDuTMyr',
         headImg: '',
-        url: '11111',
         uid: '',
         name: '',
-        phone: ''
+        phone: '',
+        show: false
       };
     },
     components: {
-      mynav: mynav,
       QrcodeVue
     },
     methods: {
@@ -65,15 +70,15 @@
             }
           });
         } else {
-          this.$toast('请输入个人信息');
+          this.$toast('请输入完整的个人信息！');
         }
       },
     },
     mounted() {
-      this.url = location.href;
+      console.log('当前页面的url===', location.href);
     },
     created() {
-      document.title = '销售'
+      document.title = '获取我的二维码'
     }
   };
 </script>
@@ -84,7 +89,7 @@
     width: 100%;
     height: 100%;
     padding-top: 0;
-    padding-bottom: 3.27rem;
+    /*padding-bottom: 3.27rem;*/
     overflow: hidden;
     position: relative;
     box-sizing: border-box;

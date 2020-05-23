@@ -4,7 +4,7 @@ let pagesConfig = require('./page.config.js')
 
 module.exports = {
     // publicPath: './',//部署应用包时的基本 URL
-    baseUrl: './',
+    baseUrl: 'push',
     outputDir: undefined,//当运行 vue-cli-service build 时生成的生产环境构建文件的目录,Default: 'dist'
     assetsDir: undefined,//放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
     runtimeCompiler: undefined,//是否使用包含运行时编译器的 Vue 构建版本。Default: false
