@@ -49,13 +49,14 @@ const radioQuestions = [
         title: '现在的智能门铃服务很不错！想要装一台吗？',
         checkList: [
             {
-                label: '需要',
-                value: 'A'
+                label: '不需要',
+                value: 0
             },
             {
-                label: '不需要',
-                value: 'B'
-            }
+                label: '需要',
+                value: 1
+            },
+
         ]
     },
     {
@@ -63,15 +64,15 @@ const radioQuestions = [
         checkList: [
             {
                 label: '移动',
-                value: 'A'
+                value: 0
             },
             {
                 label: '电信',
-                value: 'B'
+                value: 1
             },
             {
                 label: '联通',
-                value: 'C'
+                value: 2
             },
             {
                 label: '其他地方',

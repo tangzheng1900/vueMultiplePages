@@ -41,10 +41,20 @@ export default {
       radio: [], // 单选的结果
       userName: '', // 用户名
       userPhone: '', // 用户电话
-      uid: '' // 客户经理的uid
+      uid: '', // 客户经理的uid
+      networking: 0, // 智能组网个数
+      watchDog: 0, // 天翼看家个数
+      doorbell: 0, // 门铃个数
+      baseFee: 0, // 基础费用
     };
   },
   computed: {
+    totalFee() { // 总费用
+      const networkingPrice = 10;
+      const watchDogPrice = 15;
+      const doorbellPrice = 20;
+      return this.baseFee + networkingPrice * this.networking + watchDogPrice * this.watchDog + doorbellPrice * this.doorbell;
+    },
     recommend() {
       if (this.radio[2] === 'A') { return '130'}
       if (this.radio[2] === 'B') { return '151'}
@@ -98,9 +108,13 @@ export default {
       this.radio = result.radio;
       this.userName = result.userName;
       this.userPhone = result.userPhone;
+      this.networking = result.checkList[0].length;
+      this.watchDog = result.checkList[1].length;
+      this.doorbell = result.radio[0];
+      this.baseFee = result.baseFee;
     }
   },
-  mounted(){
+  mounted(){ // 所有的推送和保存逻辑都在这个页面处理
    this.initData();
   },
   created() {

@@ -38,8 +38,17 @@
           </van-radio>
         </van-radio-group>
       </div>
-      <van-field v-model="userName" label="姓名" clearable size="large" label-width="60" />
-      <van-field v-model="userPhone" type="tel" label="手机号" clearable size="large" label-width="60" />
+      <div class="question-item">
+        <div class="title">6.全家一个月话费多少元?</div>
+        <van-field v-model="digit1" type="digit" label="夫妻" label-width="60" placeholder="请输入整数"/>
+        <van-field v-model="digit2" type="digit" label="父母" label-width="60" placeholder="请输入整数"/>
+        <van-field v-model="digit3" type="digit" label="子女" label-width="60" placeholder="请输入整数"/>
+      </div>
+      <div class="question-item">
+        <div class="title">个人信息（非必填）</div>
+        <van-field v-model="userName" label="姓名" clearable size="large" label-width="60" />
+        <van-field v-model="userPhone" type="tel" label="手机号" clearable size="large" label-width="60" />
+      </div>
       <van-button
         style="margin: 15px 0"
         type="info"
@@ -56,6 +65,9 @@ import options from "./options";
 import { GetQueryString } from "../../../statics/js/methods";
 
 export default {
+  components: {
+    mynav: mynav
+  },
   data() {
     return {
       isWeiXin: TS_WEB.isWeiXin,
@@ -63,24 +75,33 @@ export default {
       options,
       checkList: [[], []], // 多选的值
       radio: ['','',''], // 单选额值
+      digit1: '',
+      digit2: '',
+      digit3: '',
       userName: '',
       userPhone: '',
       uid: '', // UID_CXkBtaSedeKS0XtySFe78EDuTMyr
     };
   },
-  components: {
-    mynav: mynav
+  computed: {
+    baseFee() {
+      return Number(this.digit1) + Number(this.digit2) + Number(this.digit3);
+    }
   },
   methods: {
     changeUrl,
     handleSubmit() {
       console.log(this.checkList, this.radio);
-      const { checkList, radio, userName, userPhone, uid } = this;
+      const { checkList, radio, userName, userPhone, uid, baseFee } = this;
       // 先校验，不通过直接提醒
       // if(!uid) {
       //   this.$toast('客户经理不存在，请扫描客户经理的二维码进入填写！');
       //   return;
       // }
+      if (this.baseFee < 5) { // 基本话费不可低于5元
+        this.$toast('话费必填！');
+        return;
+      }
       let valid = true;
       checkList.forEach(item => {
         if(item.length < 1) {
@@ -97,7 +118,7 @@ export default {
         }
       });
       if (valid) {
-        sessionStorage.setItem('result', JSON.stringify({ checkList, radio, userName, userPhone, uid })); // 存储，给result页面使用，统一在result推送
+        sessionStorage.setItem('result', JSON.stringify({ checkList, radio, userName, userPhone, uid, baseFee })); // 存储，给result页面使用，统一在result推送
         this.changeUrl('result.html'); // 跳转
       }
     },
