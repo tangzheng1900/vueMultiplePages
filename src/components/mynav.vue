@@ -1,21 +1,6 @@
 <template>
   <!-- 页面头部 -->
   <div class="nav">
-    <div class="nav-item" @click="go_page('')">
-      <img :src="navs1" class="nav-icon" v-if="pageName == 'home'">
-      <img :src="nav1" class="nav-icon" v-else>
-      <h3 :class="{'active':pageName == 'home'}">主页</h3>
-    </div>
-    <div class="nav-item" @click="go_page('discover')">
-      <img :src="navs2" class="nav-icon" v-if="pageName == 'discover'">
-      <img :src="nav2" class="nav-icon" v-else>
-      <h3 :class="{'active':pageName == 'discover'}">发现</h3>
-    </div>
-    <div class="nav-item" @click="go_page('study')">
-      <img :src="navs3" class="nav-icon" v-if="pageName == 'study'">
-      <img :src="nav3" class="nav-icon" v-else>
-      <h3 :class="{'active':pageName == 'study'}">动态</h3>
-    </div>
     <div class="nav-item" @click="go_page('sale')">
       <img :src="navs4" class="nav-icon" v-if="pageName == 'sale'">
       <img :src="nav4" class="nav-icon" v-else>
