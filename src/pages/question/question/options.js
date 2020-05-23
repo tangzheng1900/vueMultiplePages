@@ -25,7 +25,8 @@ const questions = [
                 value: 'D'
             }
         ]
-    }, {
+    },
+    {
         title: '2.您家的网可卡吗？哪个地方的信号不好',
         checkList: [
             {
@@ -45,7 +46,8 @@ const questions = [
                 value: 'D'
             }
         ]
-    }, {
+    },
+    {
         title: '3.您家的网可卡吗？哪个地方的信号不好',
         checkList: [
             {
@@ -65,7 +67,8 @@ const questions = [
                 value: 'D'
             }
         ]
-    }, {
+    },
+    {
         title: '4.您家的网可卡吗？哪个地方的信号不好',
         checkList: [
             {
@@ -85,7 +88,8 @@ const questions = [
                 value: 'D'
             }
         ]
-    }, {
+    },
+    {
         title: '5.您家的网可卡吗？哪个地方的信号不好',
         checkList: [
             {
@@ -108,4 +112,15 @@ const questions = [
     }
 ];
 
-export default { questions };
+const result = {
+    '120': [
+        {title: '11111', num: 2, desc: 'dhhdhdhdhdhdd'},
+        {title: '11111', num: 2, desc: 'dhhdhdhdhdhdd'},
+        {title: '11111', num: 2, desc: 'dhhdhdhdhdhdd'}],
+    '130': [
+        {title: '11111', num: 2, desc: 'dhhdhdhdhdhdd'},
+        {title: '11111', num: 2, desc: 'dhhdhdhdhdhdd'},
+        {title: '11111', num: 2, desc: 'dhhdhdhdhdhdd'}]
+};
+
+export default { questions, result };

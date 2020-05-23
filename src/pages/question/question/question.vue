@@ -16,16 +16,26 @@
             style="height: 35px"
             v-for="(check, index) in item.checkList"
             :key="index"
+            shape="square"
             :name="check.value">{{ check.label }}
           </van-checkbox>
         </van-checkbox-group>
       </div>
-      <van-field label="用户名" placeholder="请输入用户名" v-model="username"></van-field>
-      <van-field label="手机号" placeholder="请输入手机号" type="tel" v-model="phone"></van-field>
-      <mt-button type="primary"  @click.native="handleSubmit">点击提交，抽大奖</mt-button>
-      <mt-button type="primary"  @click.native="changeUrl('result.html')">查看结果</mt-button>
+      <van-field v-model="username" label="姓名" clearable required size="large" label-width="60" />
+      <van-field v-model="phone" type="tel" label="手机号" clearable required size="large" label-width="60" />
+      <van-button
+        style="margin-top: 15px"
+        type="info"
+        block
+        @click="handleSubmit"
+      >点击提交，抽大奖</van-button>
+      <van-button
+        style="margin: 15px 0"
+        type="info"
+        block
+        @click="changeUrl('result.html')"
+      >查看结果</van-button>
     </section>
-    <mynav :pagename="'question'"/>
   </div>
 </template>
 <script>
@@ -44,7 +54,7 @@ export default {
       value: [[], [], [], []],
       username: '',
       phone: '',
-      uid: '',
+      uid: '', // UID_CXkBtaSedeKS0XtySFe78EDuTMyr
     };
   },
   components: {
@@ -52,35 +62,47 @@ export default {
   },
   methods: {
     changeUrl,
-    handleClick() {
-      this.$toast({
-        message: '提示',
-        position: 'top',
-        duration: 5000
-      });
-    },
     handleSubmit() {
-      this.$toast({
-        message: '提交内容',
-        position: 'top',
-        duration: 5000
-      });
-      console.log(this.value);
-      this.pushMessage('120套餐推荐给您！！！！');
+      if (this.username && this.phone) {
+        const message = "<table><tr><th>产品</th><th>数量</th><th>产品说明</th></tr><tr><td>主卡</td><td>2</td><td>300分钟通话</td></tr></table>"
+        this.pushMessage1(message);
+      } else {
+        this.$toast('请填写完成的个人信息！');
+      }
     },
     pushMessage(message) {
-      const api = 'http://wxpusher.zjiecode.com/api/send/message/'
+      const api = 'http://wxpusher.zjiecode.com/api/send/message/';
       const appToken = 'AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2';
       const { uid } = this;
       const content = encodeURI(message);
       const url = `${api}?appToken=${appToken}&uid=${uid}&content=${content}`;
       fetch().get(url).then(() => {
-        this.$toast('信息已推送并保存');
+        this.$toast('信息已保存');
       });
     },
+    pushMessage1(content) {
+      const api = 'http://wxpusher.zjiecode.com/api/send/message';
+      const appToken = 'AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2';
+      const { uid } = this;
+      const params = {
+        appToken,
+        content,
+        summary: '推荐套餐',
+        contentType: 2,
+        uids: [uid]
+      };
+      fetch().post(api, params).then(() => {
+        this.$toast('post,,,,信息已保存');
+      });
+    }
   },
   mounted(){
-    this.uid = GetQueryString('uid');
+    const uid = GetQueryString('uid');
+    if(uid) {
+      this.uid = uid;
+    } else {
+      this.$toast('请使用专属二维码进入');
+    }
   },
   created() {
     document.title='查一查，礼品任你拿--问卷'
@@ -94,7 +116,7 @@ export default {
   width: 100%;
   height: 100%;
   padding-top: 0;
-  padding-bottom: 3.27rem;
+  /*padding-bottom: 3.27rem;*/
   overflow: hidden;
   position: relative;
   box-sizing: border-box;
