@@ -4,7 +4,7 @@
     <!-- 页面的主要内容 -->
     <section class="content">
       <h3>销售专属页面</h3>
-      <van-cell title="UID获取说明" is-link @click="show=true"/>
+      <van-cell title="UID获取说明" is-link size="large"@click="show=true"/>
       <van-action-sheet v-model="show" title="UID说明">
         <div style="padding: 16px 16px 100px;">
           <div>UID是每个销售人员唯一的身份ID，点击按钮，扫码关注我们的服务即可获取</div>
@@ -16,9 +16,9 @@
           </div>
         </div>
       </van-action-sheet>
-      <van-field v-model.trim="uid" label="UID" clearable required label-width="60"/>
-      <van-field v-model="name" label="姓名" clearable required label-width="60" />
-      <van-field v-model="phone" type="tel" label="手机号" clearable required label-width="60" />
+      <van-field v-model.trim="uid" label="UID" clearable required size="large" label-width="60"/>
+      <van-field v-model="name" label="姓名" clearable required size="large" label-width="60" />
+      <van-field v-model="phone" type="tel" label="手机号" clearable required size="large" label-width="60" />
       <van-button
         style="margin-top: 15px"
         type="info"
