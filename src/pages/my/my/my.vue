@@ -16,7 +16,6 @@
       <mt-button type="primary"  @click.native="handleSubmit">点击提交，抽大奖</mt-button>
       <mt-button type="primary"  @click.native="changeUrl('result.html')">查看结果</mt-button>
     </section>
-    </section>
     <mynav :pagename="'my'"/>
   </div>
 </template>

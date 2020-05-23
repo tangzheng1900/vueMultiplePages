@@ -16,15 +16,15 @@
       <img :src="nav3" class="nav-icon" v-else>
       <h3 :class="{'active':pageName == 'study'}">动态</h3>
     </div>
-    <div class="nav-item" @click="go_page('liking')">
-      <img :src="navs4" class="nav-icon" v-if="pageName == 'liking'">
+    <div class="nav-item" @click="go_page('sale')">
+      <img :src="navs4" class="nav-icon" v-if="pageName == 'sale'">
       <img :src="nav4" class="nav-icon" v-else>
-      <h3 :class="{'active':pageName == 'liking'}">商城</h3>
+      <h3 :class="{'active':pageName == 'sale'}">销售</h3>
     </div>
-    <div class="nav-item" @click="go_page('my')">
-      <img :src="navs5" class="nav-icon" v-if="pageName == 'my'">
+    <div class="nav-item" @click="go_page('question')">
+      <img :src="navs5" class="nav-icon" v-if="pageName == 'question'">
       <img :src="nav5" class="nav-icon" v-else>
-      <h3 :class="{'active':pageName == 'my'}">我的</h3>
+      <h3 :class="{'active':pageName == 'question'}">问卷</h3>
     </div>
   </div>
 </template>

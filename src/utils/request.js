@@ -34,7 +34,7 @@ export const addAccessToken = () => {
   return axios;
 };
 
-export const getSaleInfoByUid = (uid) => {
+export const fetch = () => {
     axios.defaults.headers.common = {
         'Accept': 'application/json',
         'Cache-Control': 'no-cache'

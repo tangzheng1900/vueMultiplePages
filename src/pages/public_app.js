@@ -8,8 +8,11 @@ import loading_img from '../statics/images/system/image-loading.png';
 import '../statics/css/common.less';
 //mint-ui样式引入
 import 'mint-ui/lib/style.css';
-import MintUI from 'mint-ui'
+import MintUI from 'mint-ui';
+import Vant from 'vant';
+import 'vant/lib/index.css';
 Vue.use(MintUI);
+Vue.use(Vant);
 // 定义全局本地存储组件
 Vue.prototype.$storeLocal = storeLocal;
 // 全局的事件总线对象
