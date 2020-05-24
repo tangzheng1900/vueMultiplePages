@@ -75,7 +75,7 @@ export default {
         baseRecommend.component.watchDog = {title: '天翼看家', num: this.watchDog, desc: ''};
       }
       if (this.doorbell) {
-        baseRecommend.component.doorbell({title: '智能门铃', num: this.doorbell, desc: ''});
+        baseRecommend.component.doorbell = {title: '智能门铃', num: this.doorbell, desc: ''};
       }
       baseRecommend.component.cloud = {title: '家庭云', num: '', desc: '赠送'};
       return baseRecommend;
