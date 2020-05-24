@@ -34,6 +34,15 @@ export const addAccessToken = () => {
   return axios;
 };
 
+export const config = {
+  wxpushApi: 'http://wxpusher.zjiecode.com', // 微信推送的服务地址
+  appToken: 'AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2', // 推送服务的token
+  frontendApi: 'http://192.168.0.108:8080', // 前端页面服务地址
+  backendApi: 'http://192.168.0.108:8090', // 本地开发后端服务的地址
+  // frontendApi: 'http://220.179.41.8:38557', // 生产环境的服务
+  // backendApi: 'http://220.179.41.8:38651', // 生产环境的服务
+};
+
 export const fetch = () => {
     axios.defaults.headers.common = {
         'Accept': 'application/json',

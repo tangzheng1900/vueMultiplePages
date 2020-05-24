@@ -17,8 +17,8 @@
         </div>
       </van-action-sheet>
       <van-field v-model.trim="uid" label="UID" clearable required size="large" label-width="60"/>
-      <van-field v-model="name" label="姓名" clearable required size="large" label-width="60" />
-      <van-field v-model="phone" type="tel" label="手机号" clearable required size="large" label-width="60" />
+      <van-field v-model="saleName" label="姓名" clearable required size="large" label-width="60" />
+      <van-field v-model="salePhone" type="tel" label="手机号" clearable required size="large" label-width="60" />
       <van-button
         style="margin-top: 15px"
         type="info"
@@ -33,7 +33,7 @@
 </template>
 <script>
   import {changeUrl} from "@/utils/changeUrl"
-  import {fetch} from "../../../utils/request";
+  import {fetch, config} from "../../../utils/request";
   import QrcodeVue from 'vue-qr';
 
   export default {
@@ -45,9 +45,9 @@
         // demouid: 'UID_CXkBtaSedeKS0XtySFe78EDuTMyr',
         headImg: '',
         uid: '',
-        name: '',
-        phone: '',
-        show: false
+        saleName: '',
+        salePhone: '',
+        show: false,
       };
     },
     components: {
@@ -55,17 +55,29 @@
     },
     methods: {
       changeUrl,
+      saveSaleData(nickName) {
+        const url = `${config.backendApi}/api/sale/add`;
+        const params = {
+          uid: this.uid,
+          saleName: this.saleName,
+          salePhone: this.salePhone,
+          nickName
+        };
+        fetch().post(url, params).then(() => {
+          this.$toast('注册成功！');
+        });
+      },
       getQrocde() {
-        const api = 'http://192.168.0.18:8080/push/question.html';
-        // http://220.179.41.8:38557/push/question.html
-        if (this.uid && this.name && this.phone) {
-          // 'http://wxpusher.zjiecode.com/api/fun/wxuser?appToken=AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2&uid=UID_CXkBtaSedeKS0XtySFe78EDuTMyr'
-          const url = `http://wxpusher.zjiecode.com/api/fun/wxuser?appToken=AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2&uid=${this.uid}`;
+        const api = `${config.frontendApi}/push/question.html`;
+        if (this.uid && this.saleName && this.salePhone) {
+          const url = `${config.wxpushApi}/api/fun/wxuser?appToken=${config.appToken}&uid=${this.uid}`; // 查询用户的wxpusher信息
           fetch().get(url).then(res => {
             if (res.data.data.total === 1) {
               console.log('uid====', res);
               this.headImg = res.data.data.records[0].headImg;
               this.text = `${api}?uid=${this.uid}`;  // 问卷地址
+              const nickName = res.data.data.records[0].nickName;
+              this.saveSaleData(nickName);
             } else {
               this.headImg = '';
               this.$toast('请输入正确的uid信息！');

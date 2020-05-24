@@ -23,6 +23,7 @@
         style="margin-top: 15px"
         type="info"
         block
+        :disabled="hasSubmitted"
         @click="handleSubmit"
       >提交领奖信息</van-button>
     </section>
@@ -32,7 +33,7 @@
 import HeaderCom from "@/components/header"; //页面头部
 import {changeUrl} from "@/utils/changeUrl";
 import options from "../question/options";
-import {fetch} from "@/utils/request";
+import { fetch, config } from "@/utils/request";
 
 export default {
   data() {
@@ -50,6 +51,7 @@ export default {
       doorbell: 0, // 门铃个数
       baseFee: 0, // 基础费用
       reward: '三等奖', // 奖励
+      hasSubmitted: false // 是否已提交，控制提交按钮
     };
   },
   computed: {
@@ -87,51 +89,49 @@ export default {
   methods: {
     changeUrl,
     handleSubmit() {
-      this.saveData();
       if(this.userName && this.userPhone) {
-        this.$toast('信息已保存，请到营业厅办理套餐，凭当前截图领奖');
-        const title = `<h3>姓名：${this.userName}</h3><h3>电话：${this.userPhone}</h3>`;
-        const recommendTitle = this.recommend.title + this.recommend.overview;
-        const tableTile = '<tr><th>产品</th><th>数量</th><th>产品说明</th></tr>';
-        let tableContent = '';
-        Object.keys(this.recommend.component).forEach(key => {
-          let item = this.recommend.component[key];
-          tableContent +=`<tr><td>${item.title}</td><td>${item.num}</td><td>${item.desc}</td></tr>`;
-        })
-        const message = title + recommendTitle + `<table>${tableTile}${tableContent}</table>`;
-        this.pushMessage1(message);
+        this.pushMessage();
+        this.saveData();
       } else {
-       this.$toast('必须提交完整的个人信息才能领奖');
+       this.$toast('必须填写个人信息才能领奖');
       }
     },
-    pushMessage(message) {
-      const api = 'http://wxpusher.zjiecode.com/api/send/message/';
-      const appToken = 'AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2';
-      const { uid } = this;
-      const content = encodeURI(message);
-      const url = `${api}?appToken=${appToken}&uid=${uid}&content=${content}`;
-      fetch().get(url).then(() => {
-        this.$toast('信息已保存');
-      });
-    },
-    pushMessage1(content) {
-      const api = 'http://wxpusher.zjiecode.com/api/send/message';
-      const appToken = 'AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2';
+    // pushMessage(message) {
+    //   const api = 'http://wxpusher.zjiecode.com/api/send/message/';
+    //   const appToken = 'AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2';
+    //   const { uid } = this;
+    //   const content = encodeURI(message);
+    //   const url = `${api}?appToken=${appToken}&uid=${uid}&content=${content}`;
+    //   fetch().get(url).then(() => {
+    //     this.$toast('信息已保存');
+    //   });
+    // },
+    pushMessage() {
+      const api = `${config.wxpushApi}/api/send/message`;
+      const appToken = config.appToken;
+      const title = `<h3>姓名：${this.userName || '未填写'}</h3><h3>电话：${this.userPhone || '未填写'}</h3>`;
+      const recommendTitle = this.recommend.title + this.recommend.overview;
+      const tableTile = '<tr><th>产品</th><th>数量</th><th>产品说明</th></tr>';
+      let tableContent = '';
+      Object.keys(this.recommend.component).forEach(key => {
+        let item = this.recommend.component[key];
+        tableContent +=`<tr><td>${item.title}</td><td>${item.num}</td><td>${item.desc}</td></tr>`;
+      })
+      const content = title + recommendTitle + `<table>${tableTile}${tableContent}</table>`;
       const { uid } = this;
       const params = {
         appToken,
         content,
-        summary: '推荐套餐',
+        summary: recommendTitle,
         contentType: 2,
         uids: [uid]
       };
       fetch().post(api, params).then(() => {
-        this.$toast('----信息已保存');
+        console.log('信息推送成功！！！');
       });
     },
     saveData() {
-      // const api = 'http://220.179.41.8:38651/api/msg_board/add';
-      const api = 'http://192.168.0.18:8090/api/customer/add'; // 本地调试使用的接口
+      const api = `${config.backendApi}/api/customer/add`;
       const params = {  // 构造要保存的信息
         uid: this.uid,
         userName: this.userName,
@@ -144,7 +144,8 @@ export default {
         recommend: JSON.stringify(this.recommend),
       };
       fetch().post(api, params).then(() => {
-        this.$toast('信息保存成功！');
+        this.hasSubmitted = true; // 提交成功
+        this.$toast('信息保存成功！请凭当前截图到营业厅办理领奖！');
       });
     },
     initData() { // 初始化结果页的数据，做逻辑处理
@@ -159,6 +160,11 @@ export default {
       this.doorbell = result.radio[0];
       this.baseFee = result.baseFee;
       this.uid = result.uid;
+      this.hasSubmitted = false; // 初始化，未提交
+      this.pushMessage(); // 初次推送，只推送，不保存
+      // if(this.userName && this.userPhone) {
+      //   this.saveData(); // 如果问卷信息完整，就保存
+      // }
     }
   },
   mounted(){ // 所有的推送和保存逻辑都在这个页面处理
