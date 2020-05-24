@@ -89,6 +89,7 @@ export default {
   methods: {
     changeUrl,
     handleSubmit() {
+      this.saveData();
       if(this.userName && this.userPhone) {
         this.$toast('信息已保存，请到营业厅办理套餐，凭当前截图领奖');
         const message = "<table><tr><th>产品</th><th>数量</th><th>产品说明</th></tr><tr><td>主卡</td><td>2</td><td>300分钟通话</td></tr></table>"
@@ -120,6 +121,18 @@ export default {
       };
       fetch().post(api, params).then(() => {
         this.$toast('post,,,,信息已保存');
+      });
+    },
+    saveData() {
+      // const api = 'http://220.179.41.8:38651/api/msg_board/add';
+      const api = 'http://192.168.0.18:8090/api/msg_board/add'; // 本地调试使用的接口
+      const params = {
+        username: 'question-page',
+        email: "question@ssss.com",
+        message: "问卷信息"
+      };
+      fetch().post(api, params).then(() => {
+        this.$toast('信息保存成功！');
       });
     },
     initData() { // 初始化结果页的数据，做逻辑处理
