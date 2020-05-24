@@ -56,6 +56,8 @@
     methods: {
       changeUrl,
       getQrocde() {
+        const api = 'http://192.168.0.18:8080/push/question.html';
+        // http://220.179.41.8:38557/push/question.html
         if (this.uid && this.name && this.phone) {
           // 'http://wxpusher.zjiecode.com/api/fun/wxuser?appToken=AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2&uid=UID_CXkBtaSedeKS0XtySFe78EDuTMyr'
           const url = `http://wxpusher.zjiecode.com/api/fun/wxuser?appToken=AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2&uid=${this.uid}`;
@@ -63,7 +65,7 @@
             if (res.data.data.total === 1) {
               console.log('uid====', res);
               this.headImg = res.data.data.records[0].headImg;
-              this.text = `http://220.179.41.8:38557/push/question.html?uid=${this.uid}`;  // 问卷地址
+              this.text = `${api}?uid=${this.uid}`;  // 问卷地址
             } else {
               this.headImg = '';
               this.$toast('请输入正确的uid信息！');

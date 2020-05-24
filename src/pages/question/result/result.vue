@@ -5,12 +5,7 @@
     <header-com :poptitle="'参与查一查，礼物任你拿'" :type="'doc_title'" v-if="!isWeiXin && !isApps"></header-com>
     <!-- 页面的主要内容 -->
     <section class="content">
-      <h2>611分</h2>
-      <a href="">答案解析</a>
-      <div
-        class="recommend"
-        v-if="recommend"
-      >
+      <div class="recommend">
         {{ recommend.title + recommend.overview }}
       </div>
       <div>具体组合</div>
@@ -72,7 +67,6 @@ export default {
       if (this.baseFee >= 200) {
         baseRecommend = this.options.result['191'];
       }
-      debugger;
       baseRecommend.title = `推荐您电信智家${this.totalFee}套餐`;
       baseRecommend.component.push({title: '智能组网', num: this.networking, desc: ''});
       baseRecommend.component.push({title: '天翼看家', num: this.watchDog, desc: ''});
@@ -92,7 +86,14 @@ export default {
       this.saveData();
       if(this.userName && this.userPhone) {
         this.$toast('信息已保存，请到营业厅办理套餐，凭当前截图领奖');
-        const message = "<table><tr><th>产品</th><th>数量</th><th>产品说明</th></tr><tr><td>主卡</td><td>2</td><td>300分钟通话</td></tr></table>"
+        const title = `<h3>姓名：${this.userName}</h3><h3>电话：${this.userPhone}</h3>`;
+        const recommendTitle = this.recommend.title + this.recommend.overview;
+        const tableTile = '<tr><th>产品</th><th>数量</th><th>产品说明</th></tr>';
+        let tableContent = '';
+        this.recommend.component.forEach(item => {
+          tableContent +=`<tr><td>${item.title}</td><td>${item.num}</td><td>${item.desc}</td></tr>`;
+        })
+        const message = title + recommendTitle + `<table>${tableTile}${tableContent}</table>`;
         this.pushMessage1(message);
       } else {
        this.$toast('必须提交完整的个人信息才能领奖');
@@ -120,16 +121,22 @@ export default {
         uids: [uid]
       };
       fetch().post(api, params).then(() => {
-        this.$toast('post,,,,信息已保存');
+        this.$toast('----信息已保存');
       });
     },
     saveData() {
       // const api = 'http://220.179.41.8:38651/api/msg_board/add';
-      const api = 'http://192.168.0.18:8090/api/msg_board/add'; // 本地调试使用的接口
-      const params = {
-        username: 'question-page',
-        email: "question@ssss.com",
-        message: "问卷信息"
+      const api = 'http://192.168.0.18:8090/api/customer/add'; // 本地调试使用的接口
+      const params = {  // 构造要保存的信息
+        uid: this.uid,
+        userName: this.userName,
+        userPhone: this.userPhone,
+        baseFee: this.baseFee,
+        totalFee: this.totalFee,
+        networking: this.networking,
+        watchDog: this.watchDog,
+        doorbell: this.doorbell,
+        recommend: JSON.stringify(this.recommend),
       };
       fetch().post(api, params).then(() => {
         this.$toast('信息保存成功！');
@@ -146,6 +153,7 @@ export default {
       this.watchDog = result.checkList[1].length;
       this.doorbell = result.radio[0];
       this.baseFee = result.baseFee;
+      this.uid = result.uid;
     }
   },
   mounted(){ // 所有的推送和保存逻辑都在这个页面处理
@@ -176,7 +184,8 @@ export default {
     }
     .recommend{
       padding: 10px;
-      line-height: 20px;
+      line-height: 30px;
+      font-size: 18px;
     }
 
   }
