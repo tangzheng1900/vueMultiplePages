@@ -10,11 +10,11 @@
       </div>
       <div>具体组合</div>
       <van-cell
-        v-for="(item,index) in recommend.component"
-        :key="index">
-        <span>{{ item.title }}</span>
-        <span style="margin-left: 10px">{{ item.num }}</span>
-        <span style="margin-left: 10px">{{ item.desc }}</span>
+        v-for="item in Object.keys(recommend.component)"
+        :key="item">
+        <span>{{ recommend.component[item].title }}</span>
+        <span style="margin-left: 10px">{{ recommend.component[item].num }}</span>
+        <span style="margin-left: 10px">{{ recommend.component[item].desc }}</span>
       </van-cell>
       <div style="padding: 20px">中奖信息：{{ reward }}</div>
       <van-field v-model="userName" label="姓名" clearable required size="large" label-width="60" />
@@ -68,12 +68,16 @@ export default {
         baseRecommend = this.options.result['191'];
       }
       baseRecommend.title = `推荐您电信智家${this.totalFee}套餐`;
-      baseRecommend.component.push({title: '智能组网', num: this.networking, desc: ''});
-      baseRecommend.component.push({title: '天翼看家', num: this.watchDog, desc: ''});
-      if (this.doorbell) {
-        baseRecommend.component.push({title: '智能门铃', num: this.doorbell, desc: ''});
+      if(this.networking) {
+        baseRecommend.component.networking = {title: '智能组网', num: this.networking, desc: ''};
       }
-      baseRecommend.component.push({title: '家庭云', num: '', desc: '赠送'});
+      if(this.watchDog) {
+        baseRecommend.component.watchDog = {title: '天翼看家', num: this.watchDog, desc: ''};
+      }
+      if (this.doorbell) {
+        baseRecommend.component.doorbell({title: '智能门铃', num: this.doorbell, desc: ''});
+      }
+      baseRecommend.component.cloud = {title: '家庭云', num: '', desc: '赠送'};
       return baseRecommend;
     }
   },
@@ -90,7 +94,8 @@ export default {
         const recommendTitle = this.recommend.title + this.recommend.overview;
         const tableTile = '<tr><th>产品</th><th>数量</th><th>产品说明</th></tr>';
         let tableContent = '';
-        this.recommend.component.forEach(item => {
+        Object.keys(this.recommend.component).forEach(key => {
+          let item = this.recommend.component[key];
           tableContent +=`<tr><td>${item.title}</td><td>${item.num}</td><td>${item.desc}</td></tr>`;
         })
         const message = title + recommendTitle + `<table>${tableTile}${tableContent}</table>`;
