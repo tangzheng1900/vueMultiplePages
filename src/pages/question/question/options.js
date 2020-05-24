@@ -99,39 +99,40 @@ const radioQuestions = [
     }
 ];
 
+// {title: '主卡', num: 1, desc: '20G流量+300分钟语音'},
+// {title: '特权卡', num: 2, desc: '共享主卡流量、语音'},
+// {title: '宽带', num: 1, desc: '100M'},
+// {title: 'ITV电视', num: 1, desc: '尊享版ITV'},
+// {title: '智能组网', num: 1, desc: ''},
+// {title: '天翼看家', num: 1, desc: ''},
+// {title: '家庭云', num: '', desc: '赠送'}]
 const result = {
     '130': {
-        overview: '推荐您电智家130元套餐（20G流量+300分钟语音+2张特权卡+100M宽带+尊享版ITV+智能组网+天翼看家+家庭云）',
+        title: '',
+        overview: '（20G流量+300分钟语音+2张特权卡+100M宽带+尊享版ITV+智能组网+天翼看家+家庭云）',
         component: [
             {title: '主卡', num: 1, desc: '20G流量+300分钟语音'},
             {title: '特权卡', num: 2, desc: '共享主卡流量、语音'},
             {title: '宽带', num: 1, desc: '100M'},
-            {title: 'ITV电视', num: 1, desc: '尊享版ITV'},
-            {title: '智能组网', num: 1, desc: ''},
-            {title: '天翼看家', num: 1, desc: ''},
-            {title: '家庭云', num: '', desc: '赠送'}]
+            {title: 'ITV电视', num: 1, desc: '尊享版ITV'}]
     },
     '151': {
-        overview: '推荐您电智家151元套餐（30G流量+500分钟语音+2张特权卡+300M宽带+尊享版ITV+智能组网+天翼看家+家庭云）',
+        title: '',
+        overview: '（30G流量+500分钟语音+2张特权卡+300M宽带+尊享版ITV+智能组网+天翼看家+家庭云）',
         component: [
             {title: '主卡', num: 1, desc: '30G流量+500分钟语音'},
             {title: '特权卡', num: 2, desc: '共享主卡流量、语音'},
             {title: '宽带', num: 1, desc: '300M'},
-            {title: 'ITV电视', num: 1, desc: '尊享版ITV'},
-            {title: '智能组网', num: 1, desc: ''},
-            {title: '天翼看家', num: 1, desc: ''},
-            {title: '家庭云', num: '', desc: '赠送'}]
+            {title: 'ITV电视', num: 1, desc: '尊享版ITV'}]
     },
     '191': {
-        overview:'推荐您电智家191元套餐（40G流量+800分钟语音+2张特权卡+300M宽带+尊享版ITV+智能组网+天翼看家+家庭云）',
+        title: '',
+        overview:'（40G流量+800分钟语音+2张特权卡+300M宽带+尊享版ITV+智能组网+天翼看家+家庭云）',
         component: [
             {title: '主卡', num: 1, desc: '40G流量+800分钟语音'},
             {title: '特权卡', num: 2, desc: '共享主卡流量、语音'},
             {title: '宽带', num: 1, desc: '300M'},
-            {title: 'ITV电视', num: 1, desc: '尊享版ITV'},
-            {title: '智能组网', num: 1, desc: ''},
-            {title: '天翼看家', num: 1, desc: ''},
-            {title: '家庭云', num: '', desc: '赠送'}]
+            {title: 'ITV电视', num: 1, desc: '尊享版ITV'}]
     }
 };
 

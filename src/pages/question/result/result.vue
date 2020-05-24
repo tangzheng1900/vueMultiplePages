@@ -11,9 +11,17 @@
         class="recommend"
         v-if="recommend"
       >
-        {{ options.result[recommend].overview }}
+        {{ recommend.title + recommend.overview }}
       </div>
-      <div style="padding: 20px">中奖信息：三等奖</div>
+      <div>具体组合</div>
+      <van-cell
+        v-for="(item,index) in recommend.component"
+        :key="index">
+        <span>{{ item.title }}</span>
+        <span style="margin-left: 10px">{{ item.num }}</span>
+        <span style="margin-left: 10px">{{ item.desc }}</span>
+      </van-cell>
+      <div style="padding: 20px">中奖信息：{{ reward }}</div>
       <van-field v-model="userName" label="姓名" clearable required size="large" label-width="60" />
       <van-field v-model="userPhone" type="tel" label="手机号" clearable required size="large" label-width="60" />
       <van-button
@@ -36,7 +44,7 @@ export default {
     return {
       isWeiXin: TS_WEB.isWeiXin,
       isApps: TS_WEB.isApp,
-      options,
+      options: { ...options },
       checkList: [], // 多选的结果
       radio: [], // 单选的结果
       userName: '', // 用户名
@@ -46,6 +54,7 @@ export default {
       watchDog: 0, // 天翼看家个数
       doorbell: 0, // 门铃个数
       baseFee: 0, // 基础费用
+      reward: '三等奖', // 奖励
     };
   },
   computed: {
@@ -56,10 +65,22 @@ export default {
       return this.baseFee + networkingPrice * this.networking + watchDogPrice * this.watchDog + doorbellPrice * this.doorbell;
     },
     recommend() {
-      if (this.radio[2] === 'A') { return '130'}
-      if (this.radio[2] === 'B') { return '151'}
-      if (this.radio[2] === 'C') { return '191'}
-      return '130';
+      let baseRecommend = this.options.result['130'];
+      if (170 <= this.baseFee < 200) {
+        baseRecommend = this.options.result['151'];
+      }
+      if (this.baseFee >= 200) {
+        baseRecommend = this.options.result['191'];
+      }
+      debugger;
+      baseRecommend.title = `推荐您电信智家${this.totalFee}套餐`;
+      baseRecommend.component.push({title: '智能组网', num: this.networking, desc: ''});
+      baseRecommend.component.push({title: '天翼看家', num: this.watchDog, desc: ''});
+      if (this.doorbell) {
+        baseRecommend.component.push({title: '智能门铃', num: this.doorbell, desc: ''});
+      }
+      baseRecommend.component.push({title: '家庭云', num: '', desc: '赠送'});
+      return baseRecommend;
     }
   },
   components: {
@@ -118,7 +139,7 @@ export default {
    this.initData();
   },
   created() {
-    document.title='参与查一查，礼品任你拿！'
+    document.title='参与查一查，礼品任你拿！';
   }
 };
 </script>
