@@ -96,19 +96,8 @@ export default {
        this.$toast('必须填写个人信息才能领奖');
       }
     },
-    // pushMessage(message) {
-    //   const api = 'http://wxpusher.zjiecode.com/api/send/message/';
-    //   const appToken = 'AT_GND5DX81k9aDK4DrdpPjtI5gO00jKIg2';
-    //   const { uid } = this;
-    //   const content = encodeURI(message);
-    //   const url = `${api}?appToken=${appToken}&uid=${uid}&content=${content}`;
-    //   fetch().get(url).then(() => {
-    //     this.$toast('信息已保存');
-    //   });
-    // },
     pushMessage() {
-      const api = `${config.wxpushApi}/api/send/message`;
-      const appToken = config.appToken;
+      const api = `${config.backendApi}/api/message/push`;
       const title = `<h3>姓名：${this.userName || '未填写'}</h3><h3>电话：${this.userPhone || '未填写'}</h3>`;
       const recommendTitle = this.recommend.title + this.recommend.overview;
       const tableTile = '<tr><th>产品</th><th>数量</th><th>产品说明</th></tr>';
@@ -120,10 +109,8 @@ export default {
       const content = title + recommendTitle + `<table>${tableTile}${tableContent}</table>`;
       const { uid } = this;
       const params = {
-        appToken,
-        content,
         summary: recommendTitle,
-        contentType: 2,
+        content,
         uids: [uid]
       };
       fetch().post(api, params).then(() => {

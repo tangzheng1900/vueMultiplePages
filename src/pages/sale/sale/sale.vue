@@ -42,7 +42,6 @@
         isWeiXin: TS_WEB.isWeiXin,
         isApps: TS_WEB.isApp,
         text: '', //需要生成二维码图片的字符串
-        // demouid: 'UID_CXkBtaSedeKS0XtySFe78EDuTMyr',
         headImg: '',
         uid: '',
         saleName: '',
@@ -70,10 +69,10 @@
       getQrocde() {
         const api = `${config.frontendApi}/push/question.html`;
         if (this.uid && this.saleName && this.salePhone) {
-          const url = `${config.wxpushApi}/api/fun/wxuser?appToken=${config.appToken}&uid=${this.uid}`; // 查询用户的wxpusher信息
-          fetch().get(url).then(res => {
+          const url = `${config.backendApi}/api/message/wxuser`; // 查询用户的wxpusher信息
+          const params = { uid: this.uid };
+          fetch().post(url, params).then(res => {
             if (res.data.data.total === 1) {
-              console.log('uid====', res);
               this.headImg = res.data.data.records[0].headImg;
               this.text = `${api}?uid=${this.uid}`;  // 问卷地址
               const nickName = res.data.data.records[0].nickName;
