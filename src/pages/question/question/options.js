@@ -76,23 +76,23 @@ const radioQuestions = [
       }
     ]
   },
-  {
-    title: '全家一个月话费多少元?',
-    checkList: [
-      {
-        label: '月消费160元左右',
-        value: 'A'
-      },
-      {
-        label: '月消费180元左右',
-        value: 'B'
-      },
-      {
-        label: '月消费220元左右',
-        value: 'C'
-      }
-    ]
-  }
+  // {
+  //   title: '全家一个月话费多少元?',
+  //   checkList: [
+  //     {
+  //       label: '月消费160元左右',
+  //       value: 'A'
+  //     },
+  //     {
+  //       label: '月消费180元左右',
+  //       value: 'B'
+  //     },
+  //     {
+  //       label: '月消费220元左右',
+  //       value: 'C'
+  //     }
+  //   ]
+  // }
 ];
 
 // {title: '主卡', num: 1, desc: '20G流量+300分钟语音'},

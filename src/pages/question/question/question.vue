@@ -39,7 +39,7 @@
         </van-radio-group>
       </div>
       <div class="question-item">
-        <div class="title">6.全家一个月话费多少元?</div>
+        <div class="title">5. 全家一个月话费多少元?</div>
         <van-field v-model="digit1" type="digit" label="夫妻" label-width="60" placeholder="请输入整数"/>
         <van-field v-model="digit2" type="digit" label="父母" label-width="60" placeholder="请输入整数"/>
         <van-field v-model="digit3" type="digit" label="子女" label-width="60" placeholder="请输入整数"/>
@@ -74,7 +74,7 @@ export default {
       isApps: TS_WEB.isApp,
       options,
       checkList: [[], []], // 多选的值
-      radio: ['','',''], // 单选额值
+      radio: ['',''], // 单选的值
       digit1: '',
       digit2: '',
       digit3: '',

@@ -8,12 +8,12 @@
       <div class="recommend">
         {{ recommend.title + recommend.overview }}
       </div>
-      <div>具体组合</div>
+      <div style="margin-left: 10px; font-weight: 500">具体组合</div>
       <van-cell
         v-for="item in Object.keys(recommend.component)"
         :key="item">
-        <span>{{ recommend.component[item].title }}</span>
-        <span style="margin-left: 10px">{{ recommend.component[item].num }}</span>
+        <span style="width: 75px; display: inline-block">{{ recommend.component[item].title }}</span>
+        <span style="margin-left: 10px; width: 20px; display: inline-block">{{ recommend.component[item].num }}</span>
         <span style="margin-left: 10px">{{ recommend.component[item].desc }}</span>
       </van-cell>
       <div style="padding: 20px">中奖信息：{{ reward }}</div>
@@ -181,9 +181,13 @@ export default {
       margin: 20px;
     }
     .recommend{
+      margin: 10px 5px;
       padding: 10px;
       line-height: 30px;
-      font-size: 18px;
+      font-size: 14px;
+    }
+    /deep/ .van-cell{
+      font-size: 12px;
     }
 
   }
